@@ -13,17 +13,10 @@ public class PlayerStatusView : MonoBehaviour
     /// <summary>
     /// QuestPresenterから呼び出される
     /// </summary>
-    /// <param name="hp"></param>
-    /// <param name="maxHp"></param>
-    /// <param name="atk"></param>
-    public void UpdateText(int hp,int maxHp, int atk)
+    /// <param name="playerModel"></param>
+    public void UpdateText(PlayerModel playerModel)
     {
-        hpText.text = string.Format("HP: {0}/{1}", hp, maxHp);
-        atkText.text = string.Format("ATK: {0}", atk);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        hpText.text = string.Format("HP: {0}/{1}", playerModel.HP, playerModel.MaxHp);
+        atkText.text = string.Format("ATK: {0}", playerModel.Atk);
     }
 }
