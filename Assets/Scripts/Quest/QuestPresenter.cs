@@ -10,10 +10,12 @@ public class QuestPresenter : MonoBehaviour
     PlayerStatusView playerStatusView;
 
     private PlayerModel playerModel;
+    private StageTableModel stageTableModel;
 
     void Start()
     {
         playerModel = new PlayerModel();
+        stageTableModel = new StageTableModel();
 
         stageText.text = string.Format("Stage {0}", playerModel.CurrentStage);
         playerStatusView.UpdateText(playerModel);
@@ -23,6 +25,14 @@ public class QuestPresenter : MonoBehaviour
     {
         playerModel.NextStage();
         stageText.text = string.Format("Stage {0}", playerModel.CurrentStage);
+
+        if (stageTableModel.HasGameCleared(playerModel.CurrentStage))
+        {
+            Debug.Log("ゲームクリア");
+        }else if (stageTableModel.IsEnemyPointAt(playerModel.CurrentStage))
+        {
+            Debug.Log("敵が出現した");
+        }
     }
 
     public void OnBackButton()
