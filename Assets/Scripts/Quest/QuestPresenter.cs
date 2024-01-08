@@ -8,6 +8,10 @@ public class QuestPresenter : MonoBehaviour
     TextMeshProUGUI stageText;
     [SerializeField]
     PlayerStatusView playerStatusView;
+    [SerializeField]
+    StageView stageView;
+    [SerializeField]
+    GameObject menuView;
 
     private PlayerModel playerModel;
     private StageTableModel stageTableModel;
@@ -21,6 +25,15 @@ public class QuestPresenter : MonoBehaviour
         playerStatusView.UpdateText(playerModel);
     }
 
+    void SetupMonster()
+    {
+        menuView.SetActive(false);
+        // モンスターの生成
+        MonsterModel monsterModel = stageTableModel.GetMonster(playerModel.CurrentStage);
+        // モンスターの描画
+        stageView.SpawnMonster();
+    }
+
     public void OnNextButton()
     {
         playerModel.NextStage();
@@ -29,9 +42,11 @@ public class QuestPresenter : MonoBehaviour
         if (stageTableModel.HasGameCleared(playerModel.CurrentStage))
         {
             Debug.Log("ゲームクリア");
-        }else if (stageTableModel.IsEnemyPointAt(playerModel.CurrentStage))
+        }
+        else if (stageTableModel.IsEnemyPointAt(playerModel.CurrentStage))
         {
             Debug.Log("敵が出現した");
+            SetupMonster();
         }
     }
 

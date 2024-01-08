@@ -4,38 +4,44 @@ using UnityEngine;
 
 public class StageTableModel
 {
-    // どのタイミングでモンスターを出すのかを管理する
-    private int maxStageCount = 10;
-    private List<bool> enemyPoint;
+    const int MaxStageCount = 10;
+    List<StageModel> stageModelList;
 
     public StageTableModel()
     {
-        enemyPoint = new List<bool>();
+        stageModelList = new List<StageModel>();
 
-        // 全部のステージに敵がいない状態で初期化
-        for (int i = 0; i < maxStageCount; i++)
+        // 一旦全てのステージで敵が出ないようにする
+        for (int i=0; i< MaxStageCount; i++)
         {
-            enemyPoint.Add(false);
+            stageModelList.Add(new StageModel());
         }
 
-        enemyPoint[3] = true;
-        enemyPoint[5] = true;
-        enemyPoint[8] = true;
+        // 敵の出現するステージを設定する
+        stageModelList[3].Monster = new MonsterModel();
+        stageModelList[5].Monster = new MonsterModel();
+        stageModelList[8].Monster = new MonsterModel();
     }
 
-    //　現在のステージに敵がいるかどうかを返す
-    public bool IsEnemyPointAt(int cuurentStage)
+    // プレイヤーの場所で敵が出現するかどうか判定する
+    public bool IsEnemyPointAt(int currentStage)
     {
-        return enemyPoint[cuurentStage];
+        return stageModelList[currentStage].HasMonster();
     }
 
-    // ステージがクリアしたかどうかを返す
+    // プレイヤーがゲームをクリアしたかどうか判定する
     public bool HasGameCleared(int currentStage)
     {
-        if (enemyPoint.Count <= currentStage)
+        if (stageModelList.Count <= currentStage)
         {
             return true;
         }
         return false;
+    }
+
+    // 追加：出現するモンスターを渡す
+    public MonsterModel GetMonster(int currentStage)
+    {
+        return stageModelList[currentStage].Monster;
     }
 }
