@@ -7,10 +7,12 @@ public class TitlePresenter : MonoBehaviour
 {
     public void OnNewGameButton()
     {
+        PlayerModel.GetInstande().DeleteSaveData();
         SceneManager.LoadScene("Town");
     }
     public void OnContinueButton()
     {
+        PlayerModel.GetInstande().Load();
         SceneManager.LoadScene("Town");
     }
 }

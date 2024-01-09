@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class PlayerModel
 {
     static PlayerModel instance = null;
@@ -13,9 +15,13 @@ public class PlayerModel
         return instance;
     }
 
+    [SerializeField]
     private int maxHp;
+    [SerializeField]
     private int hp;
+    [SerializeField]
     private int atk;
+    [SerializeField]
     private int currentStage;
 
     public int MaxHp
@@ -68,5 +74,26 @@ public class PlayerModel
     public void BackTown()
     {
         currentStage = 0;
+    }
+
+    string SAVELEY  = "PLAYER-SAVE-KEY";
+
+    public void Save()
+    {
+        PlayerPrefs.SetString(SAVELEY, JsonUtility.ToJson(this));
+        PlayerPrefs.Save();
+    }
+
+    public void Load()
+    {
+        string jsonPlayer = PlayerPrefs.GetString(SAVELEY, JsonUtility.ToJson(new PlayerModel()));
+        instance = JsonUtility.FromJson<PlayerModel>(jsonPlayer);
+    }
+
+    public void DeleteSaveData()
+    {
+        PlayerPrefs.DeleteKey(SAVELEY);
+        PlayerPrefs.Save();
+        Load();
     }
 }

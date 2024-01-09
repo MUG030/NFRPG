@@ -9,6 +9,10 @@ public class TownPresenter : MonoBehaviour
     {
         SceneManager.LoadScene("Quest");
     }
+    public void OnSaveButton()
+    {
+        PlayerModel.GetInstande().Save();
+    }
     public void OnTitleButton()
     {
         SceneManager.LoadScene("TitleScene");
