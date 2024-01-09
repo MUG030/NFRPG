@@ -32,6 +32,19 @@ public class PlayerModel
         currentStage = 0;
     }
 
+    public void AttackTo(MonsterModel monsterModel)
+    {
+        Debug.Log("モンスターを攻撃");
+        monsterModel.Damage(atk);
+    }
+
+    public void Damage(int damage)
+    {
+        Debug.Log("ダメージを受ける");
+        // ダメージ処理の最大最小を設定
+        hp = Mathf.Clamp(hp - damage, 0, maxHp);
+    }
+
     public void NextStage()
     {
         currentStage++;

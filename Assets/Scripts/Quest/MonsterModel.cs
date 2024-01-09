@@ -25,4 +25,17 @@ public class MonsterModel
         hp = maxHp;
         atk = 6;
     }
+
+    public void AttackTo(PlayerModel playerModel)
+    {
+        Debug.Log("Playerを攻撃");
+        playerModel.Damage(atk);
+    }
+
+    public void Damage(int damage)
+    {
+        Debug.Log("ダメージを受ける");
+        // ダメージ処理の最大最小を設定
+        hp = Mathf.Clamp(hp - damage, 0, maxHp);
+    }
 }
