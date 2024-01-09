@@ -1,11 +1,18 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MonsterView : MonoBehaviour
 {
+    [SerializeField]
+    private TextMeshProUGUI hpText;
+
     private Action onTap;
+
+    public void UpdateHPText(MonsterModel monsterModel)
+    {
+        hpText.text = string.Format("HP {0}/{1}", monsterModel.HP, monsterModel.MaxHp);
+    }
 
     public void AddListenerOnTap(Action action)
     {

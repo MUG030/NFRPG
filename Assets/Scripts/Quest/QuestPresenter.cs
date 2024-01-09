@@ -34,27 +34,42 @@ public class QuestPresenter : MonoBehaviour
         MonsterModel monsterModel = stageTableModel.GetMonster(playerModel.CurrentStage);
         // モンスターの描画&Viewを取得
         MonsterView monsterView = stageView.SpawnMonster();
-        monsterView.AddListenerOnTap(() => OnTapMonster(monsterModel));
+        monsterView.UpdateHPText(monsterModel);
+        monsterView.AddListenerOnTap(() => OnTapMonster(monsterView, monsterModel));
         
     }
 
-    void OnTapMonster(MonsterModel monsterModel)
+    void OnTapMonster(MonsterView monsterView, MonsterModel monsterModel)
     {
         Debug.Log("Presenterの処理");
-        AttackToMonster(monsterModel);
+        AttackToMonster(monsterView, monsterModel);
         AttackToPlayer(monsterModel);
     }
 
-    void AttackToMonster(MonsterModel monsterModel)
+    void AttackToMonster(MonsterView monsterView,MonsterModel monsterModel)
     {
+        if (monsterModel.IsDead())
+        {
+            return;
+        }
+        
         //  Playerからモンスターへの攻撃
         playerModel.AttackTo(monsterModel);
+        if (monsterModel.IsDead())
+        {
+            // モンスター削除
+            Destroy(monsterView.gameObject);
+            // ボタン再表示
+            menuView.SetActive(true);
+        }
+        monsterView.UpdateHPText(monsterModel);
     }
 
     void AttackToPlayer(MonsterModel monsterModel)
     {
         //  モンスターからPlayerへの攻撃
         monsterModel.AttackTo(playerModel);
+        playerStatusView.UpdateText(playerModel);
     }
 
     public void OnNextButton()
@@ -76,6 +91,6 @@ public class QuestPresenter : MonoBehaviour
     public void OnBackButton()
     {
         playerModel.BackTown();
-        SceneManager.LoadScene("Quest");
+        SceneManager.LoadScene("Town");
     }
 }

@@ -38,4 +38,13 @@ public class MonsterModel
         // ダメージ処理の最大最小を設定
         hp = Mathf.Clamp(hp - damage, 0, maxHp);
     }
+
+    public bool IsDead()
+    {
+        if (hp <= 0)
+        {
+            return true;
+        }
+        return false;
+    }
 }
