@@ -20,7 +20,7 @@ public class QuestPresenter : MonoBehaviour
 
     void Start()
     {
-        playerModel = new PlayerModel();
+        playerModel = PlayerModel.GetInstande();    // new PlayerModel();
         stageTableModel = new StageTableModel();
 
         stageText.text = string.Format("Stage {0}", playerModel.CurrentStage);
@@ -61,6 +61,11 @@ public class QuestPresenter : MonoBehaviour
             Destroy(monsterView.gameObject);
             // ボタン再表示
             menuView.SetActive(true);
+
+            // prayerの攻撃力を上げる
+            playerModel.UppAttackPoint();
+            playerStatusView.UpdateText(playerModel);
+            return;
         }
         monsterView.UpdateHPText(monsterModel);
     }
@@ -80,6 +85,8 @@ public class QuestPresenter : MonoBehaviour
         if (stageTableModel.HasGameCleared(playerModel.CurrentStage))
         {
             Debug.Log("ゲームクリア");
+            playerModel.BackTown();
+            SceneManager.LoadScene("Town");
         }
         else if (stageTableModel.IsEnemyPointAt(playerModel.CurrentStage))
         {

@@ -2,6 +2,17 @@ using UnityEngine;
 
 public class PlayerModel
 {
+    static PlayerModel instance = null;
+
+    static public PlayerModel GetInstande()
+    {
+        if (instance == null)
+        {
+            instance = new PlayerModel();
+        }
+        return instance;
+    }
+
     private int maxHp;
     private int hp;
     private int atk;
@@ -43,6 +54,11 @@ public class PlayerModel
         Debug.Log("ダメージを受ける");
         // ダメージ処理の最大最小を設定
         hp = Mathf.Clamp(hp - damage, 0, maxHp);
+    }
+
+    public void UppAttackPoint()
+    {
+        atk += 2;
     }
 
     public void NextStage()
